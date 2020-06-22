@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateProductsPriceTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('products_price', function (Blueprint $table) {
+            $table->id();
+            $table->integer('product_id')->index();
+            $table->decimal('price');
+            $table->decimal('old_price')->nullable();
+            $table->dateTime('start_promotion')->nullable();
+            $table->dateTime('end_promotion')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('products_price');
+    }
+}

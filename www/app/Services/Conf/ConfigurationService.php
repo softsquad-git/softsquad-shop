@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\Role;
 use App\Mail\Conf\RegisterAdminMail;
 use App\Models\Conf\Configuration;
+use App\Models\Users\SpecificData;
 use App\Repositories\ConfigurationRepository;
 use App\User;
 use Dotenv\Exception\ValidationException;
@@ -51,6 +52,16 @@ class ConfigurationService extends ConfigurationRepository
             throw $e;
         }
         try {
+            $data['user_id'] = $user->id;
+            SpecificData::create($data);
+        } catch (ValidationException $exception) {
+            DB::rollBack();
+            throw new Exception(trans('auth.user.createdError'));
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        try {
             $data['g_admin_id'] = $user->id;
             Configuration::create($data);
         } catch (ValidationException $e) {
@@ -62,7 +73,7 @@ class ConfigurationService extends ConfigurationRepository
         }
         DB::commit();
         try {
-            Mail::to(config('app.admin_email'))->send(new RegisterAdminMail());
+            Mail::to(config('app.admin.email'))->send(new RegisterAdminMail());
         } catch (Exception $e) {
             throw new Exception(trans('page.register.sendEmail'));
         }

@@ -228,5 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
+    'admin' => [
+        'email' => env('ADMIN_EMAIL', 'michallosak@gmail.com')
+    ]
 ];
