@@ -1,0 +1,42 @@
+version: '2'
+services:
+  softsquadshop_front:
+    image: nginx
+    ports:
+      - "79:80"
+    links:
+      - softsquadshop_app
+    volumes:
+      - "./www:/var/www"
+      - "./docker/config/nginx/vhost/sf4_vhost.conf:/etc/nginx/conf.d/030-sf4.conf:ro"
+
+  softsquadshop_app:
+    build: docker
+    links:
+      - softsquadshop_mariadb
+    volumes:
+      - "./docker/config/php/php.ini:/usr/local/etc/php/conf.d/030-custom.ini:ro"
+      - "./www:/var/www"
+    ports:
+      - "6969:9000"
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - APP_SECRET=83512d52ee8797e6e9de2322dc781885
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=pass
+      - DATABASE_NAME=db
+      - DATABASE_PORT=3349
+    working_dir: "/var/www"
+
+  softsquadshop_mariadb:
+    image: mariadb
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      - "MYSQL_ROOT_PASSWORD=pass"
+      - "MYSQL_USER=root"
+      - "MYSQL_PASSWORD=pass"
+      - "MYSQL_DATABASE=db"
+    ports:
+      - "3349:3306"
