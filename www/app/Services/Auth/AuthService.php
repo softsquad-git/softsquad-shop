@@ -63,7 +63,7 @@ class AuthService
         } else {
             Mail::to($user->email)->send(new Welcome());
         }
-
+        DB::commit();
         return true;
     }
 }
