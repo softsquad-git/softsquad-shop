@@ -16,7 +16,7 @@ class SpecificData extends Model
         'nick',
         'location',
         'sex',
-        'number_phone'
+        'contact_phone'
     ];
 
     public function user()

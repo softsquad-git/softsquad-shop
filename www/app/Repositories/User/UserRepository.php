@@ -14,6 +14,7 @@ class UserRepository
             'expires_in' => auth('api')->factory()->getTTL() * 60,
             'user_id' => Auth::id(),
             'success' => 1,
+            'name' => Auth::user()->specificData->name . ' ' . Auth::user()->specificData->last_name
         ]);
     }
 }

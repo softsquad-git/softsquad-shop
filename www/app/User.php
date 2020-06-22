@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Users\SpecificData;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -31,6 +32,11 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    public function specificData()
+    {
+        return $this->hasOne(SpecificData::class, 'user_id');
     }
 
 }
