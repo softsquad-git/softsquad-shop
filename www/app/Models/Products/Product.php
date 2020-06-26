@@ -19,7 +19,8 @@ class Product extends Model
         'start_public_date',
         'end_public_date',
         'status',
-        'quantity'
+        'quantity',
+        'is_promo'
     ];
 
     public function user()

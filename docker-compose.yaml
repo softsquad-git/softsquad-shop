@@ -1,9 +1,9 @@
-version: '2'
+version: '3.7'
 services:
   softsquadshop_front:
     image: nginx
     ports:
-      - "79:80"
+      - "85:80"
     links:
       - softsquadshop_app
     volumes:

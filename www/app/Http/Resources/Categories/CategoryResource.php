@@ -3,17 +3,18 @@
 namespace App\Http\Resources\Categories;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use \Illuminate\Http\Request;
 
 class CategoryResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+        $data['children'] = $this->children;
+        return $data;
     }
 }

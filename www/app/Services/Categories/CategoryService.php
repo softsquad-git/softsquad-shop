@@ -28,6 +28,8 @@ class CategoryService
      */
     public function store(array $data)
     {
+        if (empty($data['parent_id']))
+            $data['parent_id'] = 0;
         $category = Category::create($data);
         if (empty($category))
             throw new Exception(trans('errors.createdError'));

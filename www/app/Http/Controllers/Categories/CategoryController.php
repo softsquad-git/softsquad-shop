@@ -9,6 +9,7 @@ use App\Repositories\Categories\CategoryRepository;
 use App\Services\Categories\CategoryService;
 use \Exception;
 use \Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use \Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CategoryController extends Controller
@@ -40,6 +41,22 @@ class CategoryController extends Controller
     {
         try {
             return CategoryResource::collection($this->categoryRepository->getAllCategories());
+        } catch (Exception $e) {
+            return $this->catchResponse($e);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse|AnonymousResourceCollection
+     */
+    public function getCategories(Request $request)
+    {
+        try {
+            $params = [
+                'name' => $request->input('name')
+            ];
+            return CategoryResource::collection($this->categoryRepository->getCategories($params));
         } catch (Exception $e) {
             return $this->catchResponse($e);
         }

@@ -10,6 +10,17 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'alias'
+        'alias',
+        'parent_id'
     ];
+
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(Category::class, 'parent_id');
+    }
 }

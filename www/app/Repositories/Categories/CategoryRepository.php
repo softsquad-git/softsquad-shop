@@ -28,4 +28,14 @@ class CategoryRepository
     {
         return Category::all();
     }
+
+    public function getCategories(array $params)
+    {
+        $name = $params['name'];
+        $categories = Category::orderBy('id', 'DESC')
+            ->where('parent_id', 0);
+        if (!empty($name))
+            $categories->where('name', 'like', '%' . $name . '%');
+        return $categories->paginate(20);
+    }
 }
