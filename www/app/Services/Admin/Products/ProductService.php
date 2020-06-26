@@ -43,6 +43,10 @@ class ProductService
      */
     public function store(array $data)
     {
+        if ($data['is_promo'] === true)
+            $data['is_promo'] = 1;
+        else
+            $data['is_promo'] = 0;
         $categoryId = $data['category_id'];
         $this->categoryRepository->findCategory($categoryId);
         $data['user_id'] = Auth::id() ?? 1;
@@ -78,6 +82,10 @@ class ProductService
      */
     public function update(array $data, int $productId)
     {
+        if ($data['is_promo'] === true)
+            $data['is_promo'] = 1;
+        else
+            $data['is_promo'] = 0;
         $product = $this->productsRepository->findProduct($productId);
         $product->update($data);
         $product->price->update($data);

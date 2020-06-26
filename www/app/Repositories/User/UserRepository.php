@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserRepository
@@ -16,5 +17,14 @@ class UserRepository
             'success' => 1,
             'name' => Auth::user()->specificData->name . ' ' . Auth::user()->specificData->last_name
         ]);
+    }
+
+    /**
+     * @param int $userId
+     * @return mixed
+     */
+    public function findUser(int $userId)
+    {
+        return User::find($userId);
     }
 }

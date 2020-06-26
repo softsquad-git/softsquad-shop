@@ -39,4 +39,9 @@ class ProductsRepository
             throw new Exception(trans('errors.noObject'));
         return $product;
     }
+
+    public function getImagesProduct(int $productId)
+    {
+
+    }
 }
