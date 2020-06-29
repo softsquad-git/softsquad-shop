@@ -23,7 +23,8 @@ class CreateProductsTable extends Migration
             $table->dateTime('start_public_date')->nullable();
             $table->dateTime('end_public_date')->nullable();
             $table->integer('status')->default(\App\Helpers\Status::SS_PRODUCT_ACTIVE);
-            $table->integer('quantity')->default(0);  #no limit
+            $table->boolean('is_no_limit_quantity')->default(false);
+            $table->integer('quantity')->default(1);
             $table->boolean('is_promo')->default(false);
             $table->timestamps();
         });

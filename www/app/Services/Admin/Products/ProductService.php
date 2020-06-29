@@ -43,10 +43,17 @@ class ProductService
      */
     public function store(array $data)
     {
-        if ($data['is_promo'] === true)
+        if ($data['is_promo'] === true) {
             $data['is_promo'] = 1;
-        else
+        } else {
             $data['is_promo'] = 0;
+        }
+        if ($data['is_no_limit_quantity'] == true) {
+            $data['is_no_limit_quantity'] = 1;
+            $data['quantity'] = 0;
+        } else {
+            $data['is_no_limit_quantity'] = 0;
+        }
         $categoryId = $data['category_id'];
         $this->categoryRepository->findCategory($categoryId);
         $data['user_id'] = Auth::id() ?? 1;
@@ -82,10 +89,17 @@ class ProductService
      */
     public function update(array $data, int $productId)
     {
-        if ($data['is_promo'] === true)
+        if ($data['is_promo'] === true) {
             $data['is_promo'] = 1;
-        else
+        } else {
             $data['is_promo'] = 0;
+        }
+        if ($data['is_no_limit_quantity'] == true) {
+            $data['is_no_limit_quantity'] = 1;
+            $data['quantity'] = 0;
+        } else {
+            $data['is_no_limit_quantity'] = 0;
+        }
         $product = $this->productsRepository->findProduct($productId);
         $product->update($data);
         $product->price->update($data);
@@ -110,5 +124,20 @@ class ProductService
     public function uploadImages(array $images, int $productId)
     {
         Upload::multiFile($images, $productId, Path::SS_PRODUCT_IMAGES);
+    }
+
+    /**
+     * @param int $productId
+     * @return mixed
+     * @throws Exception
+     */
+    public function archive(int $productId)
+    {
+        $product = $this->productsRepository->findProduct($productId);
+        if ($product->status != Status::SS_PRODUCT_ARCHIVE)
+            $product->update(['status' => Status::SS_PRODUCT_ARCHIVE]);
+        else
+            $product->update(['status' => Status::SS_PRODUCT_ACTIVE]);
+        return $product;
     }
 }

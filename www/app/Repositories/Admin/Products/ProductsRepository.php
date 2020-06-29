@@ -16,6 +16,7 @@ class ProductsRepository
         $categoryId = $params['category_id'];
         $title = $params['title'];
         $isPromo = $params['is_promo'];
+        $status = $params['status'];
         $products = Product::orderBy('id', $params['ordering'] ?? 'DESC');
         if (!empty($categoryId))
             $products->where('category_id', $categoryId);
@@ -23,6 +24,8 @@ class ProductsRepository
             $products->where('title', 'like', '%' . $title . '%');
         if (!empty($isPromo))
             $products->where('is_promo', $isPromo);
+        if (!empty($status))
+            $products->where('status', $status);
         return $products
             ->paginate($params['pagination'] ?? 20);
     }
@@ -38,10 +41,5 @@ class ProductsRepository
         if (empty($product))
             throw new Exception(trans('errors.noObject'));
         return $product;
-    }
-
-    public function getImagesProduct(int $productId)
-    {
-
     }
 }

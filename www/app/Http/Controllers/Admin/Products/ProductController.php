@@ -39,7 +39,8 @@ class ProductController extends Controller
         $params = [
             'category_id' => $request->input('category_id'),
             'title' => $request->input('title'),
-            'is_promo' => $request->input('is_promo')
+            'is_promo' => $request->input('is_promo'),
+            'status' => $request->input('status')
         ];
         try {
             return ProductResource::collection($this->productsRepository->getProducts($params));
@@ -106,8 +107,17 @@ class ProductController extends Controller
         }
     }
 
-    public function uploadImages()
+    /**
+     * @param int $productId
+     * @return JsonResponse
+     */
+    public function archive(int $productId)
     {
-        //
+        try {
+            $this->productService->archive($productId);
+            return $this->successResponse();
+        } catch (Exception $e) {
+            return $this->catchResponse($e);
+        }
     }
 }

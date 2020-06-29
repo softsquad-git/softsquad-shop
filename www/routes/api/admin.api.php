@@ -13,5 +13,16 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('store', 'Admin\Products\ProductController@store');
         Route::put('update/{productId}', 'Admin\Products\ProductController@update');
         Route::delete('remove/{productId}', 'Admin\Products\ProductController@remove');
+        Route::post('archive/{productId}', 'Admin\Products\ProductController@archive');
+    });
+    Route::group(['prefix' => 'orders'], function () {
+        //
+        Route::group(['prefix' => 'shipments'], function () {
+            Route::get('get', 'Admin\Orders\Shipments\ShipmentController@getAllShipments');
+            Route::post('store', 'Admin\Orders\Shipments\ShipmentController@store');
+            Route::put('update/{shipmentId}', 'Admin\Orders\Shipments\ShipmentController@update');
+            Route::delete('remove/{shipmentId}', 'Admin\Orders\Shipments\ShipmentController@remove');
+            Route::get('find/{shipmentId}', 'Admin\Orders\Shipments\ShipmentController@findShipment');
+        });
     });
 });
