@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Helpers\Role;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository
 {
@@ -26,5 +28,21 @@ class UserRepository
     public function findUser(int $userId)
     {
         return User::find($userId);
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function getUsers(array $params)
+    {
+        $name = $params['name'];
+        $users = User::where('role', Role::SS_R_USER)
+            ->orderBy('id', 'DESC');
+        if (!empty($name))
+            $users->whereHas('specificData', function ($q) use ($name) {
+                $q->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', "%" . $name . "%");
+            });
+        return $users->paginate(20);
     }
 }

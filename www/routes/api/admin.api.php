@@ -25,4 +25,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('find/{shipmentId}', 'Admin\Orders\Shipments\ShipmentController@findShipment');
         });
     });
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('get', 'Admin\Users\UserController@getUsers');
+        Route::get('find/{userId}', 'Admin\Users\UserController@findUser');
+    });
 });
