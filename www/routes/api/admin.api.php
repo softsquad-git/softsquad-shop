@@ -16,7 +16,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('archive/{productId}', 'Admin\Products\ProductController@archive');
     });
     Route::group(['prefix' => 'orders'], function () {
-        //
+        Route::get('get', 'Admin\Orders\OrderController@getAllOrders');
+        Route::get('find/{orderId}', 'Admin\Orders\OrderController@findOrder');
         Route::group(['prefix' => 'shipments'], function () {
             Route::get('get', 'Admin\Orders\Shipments\ShipmentController@getAllShipments');
             Route::post('store', 'Admin\Orders\Shipments\ShipmentController@store');

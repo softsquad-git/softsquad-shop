@@ -104,4 +104,13 @@ class CategoryController extends Controller
             return $this->catchResponse($e);
         }
     }
+
+    public function findCategory(string $alias)
+    {
+        try {
+            return CategoryResource::collection($this->categoryRepository->findCategoryAlias($alias));
+        } catch (Exception $e) {
+            return $this->catchResponse($e);
+        }
+    }
 }

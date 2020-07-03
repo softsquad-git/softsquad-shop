@@ -17,14 +17,12 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->integer('user_id')->nullable()->index();
             $table->decimal('total_price');
-            $table->text('products_ids');
             $table->string('post_code');
             $table->string('city');
             $table->string('address');
             $table->string('email');
             $table->string('phone');
             $table->text('additional_information')->nullable();
-            $table->integer('quantity')->default(1);
             $table->integer('shipment_id')->index();
             $table->string('name');
             $table->integer('status')->default(1);

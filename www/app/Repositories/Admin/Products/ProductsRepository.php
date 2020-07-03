@@ -3,10 +3,24 @@
 namespace App\Repositories\Admin\Products;
 
 use App\Models\Products\Product;
+use App\Repositories\Categories\CategoryRepository;
 use \Exception;
 
 class ProductsRepository
 {
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    /**
+     * @param CategoryRepository $categoryRepository
+     */
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * @param array $params
      * @return mixed
@@ -41,5 +55,27 @@ class ProductsRepository
         if (empty($product))
             throw new Exception(trans('errors.noObject'));
         return $product;
+    }
+
+    /**
+     * @param array $ids
+     * @return mixed
+     */
+    public static function getWhereIn(array $ids)
+    {
+        return Product::whereIn('id', $ids)
+            ->get();
+    }
+
+    /**
+     * @param string $alias
+     * @param array $params
+     * @return mixed
+     * @throws Exception
+     */
+    public function getProductsCategory(string $alias, array $params)
+    {
+        $category = $this->categoryRepository->findCategoryAlias($alias);
+        return $this->getProducts($params);
     }
 }

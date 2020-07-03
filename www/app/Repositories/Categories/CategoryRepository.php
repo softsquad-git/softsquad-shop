@@ -29,6 +29,10 @@ class CategoryRepository
         return Category::all();
     }
 
+    /**
+     * @param array $params
+     * @return mixed
+     */
     public function getCategories(array $params)
     {
         $name = $params['name'];
@@ -37,5 +41,19 @@ class CategoryRepository
         if (!empty($name))
             $categories->where('name', 'like', '%' . $name . '%');
         return $categories->paginate(20);
+    }
+
+    /**
+     * @param string $alias
+     * @return mixed
+     * @throws Exception
+     */
+    public function findCategoryAlias(string $alias)
+    {
+        $category = Category::where('alias', $alias)
+            ->first();
+        if (empty($category))
+            throw new Exception(trans('error.noObject'));
+        return $category;
     }
 }
